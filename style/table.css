@@ -1,0 +1,79 @@
+table {
+    width: 100%; 
+    margin-top: 20px;
+    border-radius: 2em;
+}
+
+thead {
+    background: rgb(12,176,254);
+    background: linear-gradient(103deg, rgba(12,176,254,1) 0%, rgba(0,80,161,1) 75%);
+    text-align: center;
+}
+
+th {
+    color: white;
+    padding: 5px;
+    border: 1px  solid #ccc;
+}
+
+tbody {
+    text-align: center;
+}
+
+td {
+    padding: 5px;
+    border: 1px solid #ccc;
+    word-wrap: break-word;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #FEFEFE;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #F4F4F4;
+}
+
+tbody tr:hover {
+    background-color: #D3D3D3;
+}
+
+.edit-button {
+    background-color: #FFFFFF;
+    border-color: #3366FF;
+    border-radius: 50%;
+    border-style: solid;
+    color: #3366FF;
+    padding: 3px;
+    margin-left: 0.5%;
+    margin-right: 0.5%;
+}
+
+.edit-button:hover {
+    border-color: rgba(51, 102, 255, 0.6);
+    color: rgba(51, 102, 255, 0.6);
+}
+
+.icon {
+    margin: 4px;
+}
+
+.delete-button {
+    background-color: #FFFFFF;
+    border-color: #FF0000;
+    border-radius: 50%;
+    border-style: solid;
+    color: #FF0000;
+    padding: 3px;
+    margin-left: 0.5%;
+    margin-right: 0.5%;
+}
+
+.delete-button:hover {
+    border-color: rgba(255, 0, 0, 0.5);
+    color: rgba(255, 0, 0, 0.5);
+}
+
+.action-col {
+    width: 10%;
+}

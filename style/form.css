@@ -1,0 +1,48 @@
+.form-header {
+    background-color: #41B3F9;
+    border-radius: 0.5em 0.5em 0 0;
+    color: #FFFFFF;
+    padding: 0.5em;
+}
+
+.form-header p {
+    margin: 0;
+    padding: 0;
+    padding-left: 0.5em;
+}
+
+.form-fieldset {
+    background-color: #FFFFFF;
+    border: 0.1em solid #41B3F9;
+    border-radius: 0 0 0.5em 0.5em;
+    padding: 2.5em 2em 2em 2em;
+}
+
+.currency-span {
+    background-color: #FFFFFF;
+}
+
+.buttons {
+    margin-top: 2em;
+    text-align: right !important
+}
+
+.save {
+    background-color: #33CC00;
+    color: #FFFFFF;
+}
+
+.save:hover{
+    background-color: #2AA700 !important;
+    color: #FFFFFF !important;
+}
+
+.clear {
+    background-color:  #FF9900;
+    color: #FFFFFF;
+}
+
+.clear:hover{
+    background-color: #BB7000 !important;
+    color: #FFFFFF !important;
+}

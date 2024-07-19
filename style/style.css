@@ -1,0 +1,19 @@
+@import url('form.css');
+
+@import url('table.css');
+
+.menu {
+    background-color: #FFFFFF;
+}
+
+.menu:hover {
+    color: #FFFFFF;
+}
+
+.menu:active {
+    color: #FFFFFF !important;
+}
+
+body { 
+    background-color: #F8F8FF;
+}

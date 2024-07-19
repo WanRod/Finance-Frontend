@@ -1,0 +1,22 @@
+<div class="modal fade" id="edit-modal" tabindex="-1" aria-labelledby="edit-modal-title" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="col-4">
+                    <h5 class="modal-title">Editar registro</h5>
+                </div>
+                
+                <div class="col-8">
+                    <input type="text" id="edit-id" class="form-control" disabled>
+                </div>
+            </div>
+            <div class="modal-body">
+                <input type="text" class="form-control" name="edit-description" id="edit-description" placeholder="Descrição" style="max-width: 60%;" required>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="confirm-edit" class="btn btn-success save"><i class="fa-solid fa-check"></i> Salvar</button>
+                <button type="button" id="cancel-edit" class="btn btn-warning clear" data-bs-dismiss="modal"><i class="fa-regular fa-circle-xmark"></i> Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
