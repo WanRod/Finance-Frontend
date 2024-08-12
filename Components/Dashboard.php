@@ -4,15 +4,6 @@ $currentYear = date('Y');
 
 $data = DashboardRepository::getData($currentYear, $currentMonth);
 
-$outputTypeDescriptions = [];
-$outputTypeAmounts = [];
-
-foreach ($data['output_types'] as $outputType)
-{
-    $outputTypeDescriptions = $outputType['description'];
-    $outputTypeAmounts = $outputType['amount'];
-}
-
 $totalInput = str_replace('.', ',', $data['total_input']);
 $totalOutput = str_replace('.', ',', $data['total_output']);
 $percentSpent = $data['percent_spent'];
@@ -26,6 +17,15 @@ foreach ($data['monthly'] as $monthData)
 {
     $inputs[] = $monthData['input'];
     $outputs[] = $monthData['output'];
+}
+
+$outputTypeDescriptions = [];
+$outputTypeAmounts = [];
+
+foreach ($data['output_types'] as $outputType)
+{
+    $outputTypeDescriptions[] = $outputType['description'];
+    $outputTypeAmounts[] = $outputType['amount'];
 }
 ?>
 
@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function() {
     var lineChartContext = document.getElementById('lineChart').getContext('2d');
     var barChartContext = document.getElementById('barChart').getContext('2d');
 
-    var financeChart = new Chart(lineChartContext, {
+    var lineChart = new Chart(lineChartContext, {
         type: 'line',
         data: {
             labels: <?php echo json_encode($months); ?>,
@@ -76,18 +76,20 @@ document.addEventListener("DOMContentLoaded", function() {
                 {
                     label: 'Entradas',
                     data: <?php echo json_encode($inputs); ?>,
-                    borderColor: 'green',
-                    backgroundColor: 'rgba(0, 255, 0, 0.2)',
+                    borderColor: 'LimeGreen',
+                    backgroundColor: 'rgb(50, 205, 50)',
                     pointStyle: 'circle',
-                    pointBackgroundColor: 'green'
+                    tension: 0.5,
+                    pointBackgroundColor: 'LimeGreen'
                 },
                 {
                     label: 'Saídas',
                     data: <?php echo json_encode($outputs); ?>,
-                    borderColor: 'red',
-                    backgroundColor: 'rgba(255, 0, 0, 0.2)',
+                    borderColor: 'Red',
+                    backgroundColor: 'rgb(255, 0, 0)',
                     pointStyle: 'circle',
-                    pointBackgroundColor: 'red'
+                    tension: 0.5,
+                    pointBackgroundColor: 'Red'
                 }
             ]
         },
@@ -119,25 +121,27 @@ document.addEventListener("DOMContentLoaded", function() {
         type: 'bar',
         data: {
             labels: <?php echo json_encode($outputTypeDescriptions); ?>,
-            datasets: [{
-                label: 'Tipos de Saída',
-                data: <?php echo json_encode($outputTypeAmounts); ?>,
-                borderColor: 'green',
-                backgroundColor: 'rgba(0, 255, 0, 0.2)'
-            }]
+            datasets: [
+                {
+                    label: 'Saídas',
+                    data: <?php echo json_encode($outputTypeAmounts); ?>,
+                    backgroundColor: [
+                        '#000080', 
+                        '#000C66',
+                        '#0000FF',
+                        '#7EC8E3',
+                        '#145DA0',
+                        '#0C2D48',
+                        '#2E8BC0',
+                        '#B1D4E0'
+                    ]
+                }   
+            ]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
             scales: {
-                x: {
-                    beginAtZero: true,
-                    ticks: {
-                        autoSkip: false,
-                        maxRotation: 45,
-                        minRotation: 0
-                    }
-                },
                 y: {
                     beginAtZero: true
                 }
