@@ -22,15 +22,6 @@ include_once 'Components/Modals/UpdateInputModal.html';
             foreach ($inputs as $input) 
             {
                 $value = str_replace('.', ',', $input['value']);
-
-                if (substr_count($value, ',') == 1) 
-                {
-                    $value .= '0';
-                } 
-                else if (strpos($value, ',') === false) 
-                {
-                    $value .= ',00';
-                }
                 
                 $date = DateTime::createFromFormat('Y-m-d', $input['date'])->format('d/m/Y');
 

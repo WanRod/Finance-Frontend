@@ -2,6 +2,7 @@
 require_once 'Repositories/InputRepository.php';
 require_once 'Repositories/OutputRepository.php';
 require_once 'Repositories/OutputTypeRepository.php';
+require_once 'Repositories/DashboardRepository.php';
 
 date_default_timezone_set("America/Fortaleza");
 
@@ -50,6 +51,7 @@ else if (isset($_POST['dashboard']))
     <script src="https://kit.fontawesome.com/36e17004f7.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="style/style.css">
     <title>Finanças</title>
 </head>
