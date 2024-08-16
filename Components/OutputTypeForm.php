@@ -4,7 +4,7 @@
 
 <fieldset class="form-fieldset">
     <form action="Methods/OutputType/InsertOutputType.php" method="POST">
-        <div class="row d-flex justify-content-center">
+        <div class="d-flex justify-content-center">
             <input type="text" class="form-control" name="description" id="description" placeholder="Descrição" style="max-width: 40%;" required>
         </div>
         <div class="buttons">

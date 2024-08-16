@@ -7,4 +7,4 @@ if (!empty($_POST['output-type-id']) && !empty($_POST['description']) && !empty(
     OutputRepository::insert($_POST['output-type-id'], $_POST['description'], $_POST['value'], $_POST['date']);
 }
 
-header('Location: ../../index.php');
+header('Location: ../../');

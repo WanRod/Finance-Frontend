@@ -6,8 +6,8 @@ $data = DashboardRepository::getData($currentYear, $currentMonth);
 
 $totalInput = str_replace('.', ',', $data['total_input']);
 $totalOutput = str_replace('.', ',', $data['total_output']);
-$percentSpent = $data['percent_spent'];
-$remainingAmount = $data['remaining_amount'];
+$percentSpent = str_replace('.', ',', $data['percent_spent']);
+$remainingAmount = str_replace('.', ',', $data['remaining_amount']);
 
 $months = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
 $inputs = [];
@@ -47,7 +47,7 @@ foreach ($data['output_types'] as $outputType)
     </div>
 
     <div class="data-div align-content-center">
-        <h5>Restante</h5>
+        <h5>Saldo</h5>
         <p class="data"><span class="symbol-blue">R$</span><span class="value"><?php echo $remainingAmount ?></span></p>
     </div>
 </div>
@@ -123,8 +123,6 @@ document.addEventListener("DOMContentLoaded", function() {
             labels: <?php echo json_encode($outputTypeDescriptions); ?>,
             datasets: [
                 {
-                    label: 'Saídas',
-                    data: <?php echo json_encode($outputTypeAmounts); ?>,
                     backgroundColor: [
                         '#000080', 
                         '#000C66',
@@ -134,7 +132,10 @@ document.addEventListener("DOMContentLoaded", function() {
                         '#0C2D48',
                         '#2E8BC0',
                         '#B1D4E0'
-                    ]
+                    ],
+                    categoryPercentage: 0.4,
+                    data: <?php echo json_encode($outputTypeAmounts); ?>,
+                    label: 'Saídas'
                 }   
             ]
         },

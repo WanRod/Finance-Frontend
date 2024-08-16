@@ -7,4 +7,4 @@ if (!empty($_POST['id']))
     OutputTypeRepository::delete($_POST['id']);
 }
 
-header('Location: ../../index.php');
+header('Location: ../../');

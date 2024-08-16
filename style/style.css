@@ -2,6 +2,50 @@
 @import url('table.css');
 @import url('dashboard.css');
 
+
+/* Body */
+body { 
+    background-color: #F8F8FF;
+}
+
+/* Header */
+.btn-logout {
+    border-color: #FFFAFA;
+    color: #FFFAFA;
+}
+
+.btn-logout:hover, .btn-logout:active {
+    background-color: #FF0000 !important;
+    border-color: #FF0000 !important;
+    color: #FFFFFF !important;
+}
+
+.btn-profile {
+    border-color: #FFFAFA;
+    color: #FFFAFA;
+}
+
+.btn-profile:hover, .btn-profile:active {
+    background-color: #FFFAFA !important;
+    border-color: #FFFAFA !important;
+    color: #000000 !important;
+}
+
+.dollar-circle {
+    height: 3rem;
+    width: 3rem;
+}
+
+.dollar-sign {
+    color: #FFFFFF;
+    font-size: 1.5rem;
+}
+
+nav {
+    background: linear-gradient(180deg, rgb(0, 80, 160) 100%, rgb(10, 180, 255) 0%);
+}
+
+/* Main */
 .menu {
     background-color: #FFFFFF;
 }
@@ -14,6 +58,8 @@
     color: #FFFFFF !important;
 }
 
-body { 
-    background-color: #F8F8FF;
+h1 {
+    color: #FFFFFF;
+    font-size: 1.75rem;
+    margin-left: 1rem;
 }

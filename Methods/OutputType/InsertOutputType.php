@@ -7,4 +7,4 @@ if (!empty($_POST['description']))
     OutputTypeRepository::insert($_POST['description']);
 }
 
-header('Location: ../../index.php');
+header('Location: ../../');

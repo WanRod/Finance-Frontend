@@ -28,7 +28,7 @@ include_once 'Components/Modals/UpdateOutputModal.php';
                 $date = DateTime::createFromFormat('Y-m-d', $output['date'])->format('d/m/Y');
 
                 echo "
-                    <tr>
+                    <tr class=\"tablee\">
                         <td data-output-type-id=\"{$output['output_type']['id']}\">{$output['output_type']['description']}</td>
                         <td>{$output['description']}</td>
                         <td class=\"text-end\" data-raw-value=\"{$output['value']}\">R$ {$value}</td>
@@ -66,14 +66,13 @@ $(document).ready(function()
     $('#confirm-delete').on('click', function() 
     {
         var id = $(this).data('id');
-
         $.ajax({
             url: 'Methods/Output/DeleteOutput.php',
             type: 'POST',
             data: { id: id },
             success: function(response)
             {
-                location.reload();
+                location.replace(location.href);
             },
             error: function(xhr, status, error) 
             {
@@ -125,7 +124,7 @@ $(document).ready(function()
             },
             success: function(response)
             {
-                location.reload();
+                location.replace(location.href);
             },
             error: function(xhr, status, error) 
             {

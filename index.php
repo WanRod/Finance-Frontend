@@ -1,12 +1,21 @@
 <?php
+if (!isset($_SESSION))
+{
+    session_start();
+}
+
+if (!isset($_SESSION['token']))
+{
+    header('Location: Login.php');
+    exit();
+}
+
 require_once 'Repositories/InputRepository.php';
 require_once 'Repositories/OutputRepository.php';
 require_once 'Repositories/OutputTypeRepository.php';
 require_once 'Repositories/DashboardRepository.php';
 
 date_default_timezone_set("America/Fortaleza");
-
-session_start();
 
 if (!isset($_SESSION['menu'])) 
 {
@@ -57,16 +66,28 @@ else if (isset($_POST['dashboard']))
 </head>
 
 <body>
-    <header>
-        <h1 class="text-center"></i>Finanças</h1>
-    </header>
+<header>
+    <nav class="navbar py-3">
+        <div class="container-fluid mx-3 d-flex justify-content-between align-items-center row">
+            <div class="d-flex align-items-center col">
+                <div class="border border-2 rounded-circle dollar-circle d-flex justify-content-center align-items-center">
+                    <i class="fa-solid fa-dollar-sign dollar-sign"></i>
+                </div>
+                <h1 class="mt-1 mx-2">Finanças</h1>
+            </div>
+            <div class="col text-end">
+                <button class="btn btn-profile"><i class="fa-solid fa-circle-user me-1"></i>Perfil</button>
+                <button class="btn btn-logout" data-bs-toggle="modal" data-bs-target="#logout-modal"><i class="fa-solid fa-right-from-bracket me-1"></i>Sair</button>
+            </div>
+        </div> 
+    </nav>
+</header>
+
 
     <main>
-        <hr>
-
         <div class="container">
             <form method="post">
-                <button class="btn btn-outline-primary rounded-pill my-4 menu" type="submit" name="toggle"><i class="fa-solid fa-rotate-right"></i> Trocar</button>
+                <button class="btn btn-outline-primary rounded-pill my-4 menu" type="submit" name="toggle"><i class="fa-solid fa-rotate-right"></i> Trocar de página</button>
                 <button class="btn btn-outline-info rounded-pill my-4 menu" type="submit" name="dashboard"><i class="fa-solid fa-chart-pie"></i> Dashboard</button>
             </form>
 
@@ -100,6 +121,35 @@ else if (isset($_POST['dashboard']))
             ?>
         </div>
     </main>
+
+    <?php
+        include_once 'Components/Modals/LogoutModal.html';
+    ?>
+
+    <script>
+        $(document).ready(function() 
+        {
+            $('#confirm-logout').on('click', function() 
+            {
+                $.ajax({
+                    url: 'Login.php',
+                    type: 'POST',
+                    data: 
+                    { 
+                        logout: true,
+                    },
+                    success: function(response)
+                    {
+                        location.replace(location.href);
+                    },
+                    error: function(xhr, status, error) 
+                    {
+
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

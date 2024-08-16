@@ -6,31 +6,52 @@ class DashboardRepository
 
     private static function makeRequest($method, $url, $data = null)
     {
-        $ch = curl_init($url);
-
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
-
-        if ($data)
+        if (!isset($_SESSION)) 
         {
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-            curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                'Content-Type: application/json',
-                'Content-Length: ' . strlen(json_encode($data))
-            ]);
+            session_start();
         }
 
-        $response = curl_exec($ch);
-        curl_close($ch);
+        $token = $_SESSION['token'] ?? null;
 
-        return json_decode($response, true);
+        //Ver se remove e retorna só a validação
+        if (!$token)
+        {
+            die('Token de autorização não encontrado.');
+        }
+
+        $headers = [
+            'Content-Type: application/json',
+            'Authorization: Bearer ' . $token
+        ];
+
+        $options = [
+            'http' => [
+                'method' => $method,
+                'header' => implode("\r\n", $headers),
+            ]
+        ];
+
+        if ($data != null)
+        {
+            $options['http']['content'] = json_encode($data);
+        }
+
+        $context = stream_context_create($options);
+        $result = @file_get_contents($url, false, $context);
+
+        //Ver se remove e retorna só a validação
+        if ($result === FALSE)
+        {
+            $error = error_get_last();
+            die('Erro ao fazer a requisição: ' . $error['message']);
+        }
+
+        return json_decode($result, true);
     }
 
     public static function getData($year, $month)
     {
         $url = self::$baseUrl . "/dashboard/data/{$year}/{$month}";
         return self::makeRequest('GET', $url);
-    }
-
-    
+    }    
 }

@@ -62,7 +62,7 @@ $(document).ready(function()
             data: { id: id },
             success: function(response)
             {
-                location.reload();
+                location.replace(location.href);
             },
             error: function(xhr, status, error) 
             {
@@ -102,7 +102,7 @@ $(document).ready(function()
             },
             success: function(response)
             {
-                location.reload();
+                location.replace(location.href);
             },
             error: function(xhr, status, error) 
             {

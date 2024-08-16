@@ -7,4 +7,4 @@ if (!empty($_POST['id']) && !empty($_POST['description']) && !empty($_POST['valu
     InputRepository::update($_POST['id'], $_POST['description'], $_POST['value'], $_POST['date']);
 }
 
-header('Location: ../../index.php');
+header('Location: ../../');
