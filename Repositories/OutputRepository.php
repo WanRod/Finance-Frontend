@@ -10,46 +10,47 @@ class OutputRepository
         {
             session_start();
         }
-    
+
         $token = $_SESSION['token'] ?? null;
-    
+
         if (!$token)
         {
-            die('Token de autorização não encontrado.');
+            throw new Exception('Token de autorização não encontrado.');
         }
-    
+
         $headers = [
             'Authorization: Bearer ' . $token
         ];
-    
+
         if ($method === 'POST' || $method === 'PUT')
         {
             $headers[] = 'Content-Type: application/json';
         }
-    
+
         $options = [
             'http' => [
                 'method' => $method,
                 'header' => implode("\r\n", $headers),
             ]
         ];
-    
+
         if ($data !== null)
         {
             $options['http']['content'] = json_encode($data);
         }
-    
+
         $context = stream_context_create($options);
-        $result = file_get_contents($url, false, $context);
-    
+        $result = @file_get_contents($url, false, $context);  // Use '@' para suprimir o aviso e tratá-lo manualmente
+
         if ($result === FALSE)
         {
             $error = error_get_last();
-            die('Erro ao fazer a requisição: ' . $error['message']);
+            throw new Exception('Erro ao fazer a requisição: ' . $error['message']);
         }
-    
+
         return json_decode($result, true);
     }
+
 
     public static function getAll()
     {

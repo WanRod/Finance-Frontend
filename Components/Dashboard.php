@@ -21,11 +21,13 @@ foreach ($data['monthly'] as $monthData)
 
 $outputTypeDescriptions = [];
 $outputTypeAmounts = [];
+$outputTypeTotals = [];
 
 foreach ($data['output_types'] as $outputType)
 {
     $outputTypeDescriptions[] = $outputType['description'];
     $outputTypeAmounts[] = $outputType['amount'];
+    $outputTypeTotals[] = $outputType['total'];
 }
 ?>
 
@@ -135,7 +137,8 @@ document.addEventListener("DOMContentLoaded", function() {
                     ],
                     categoryPercentage: 0.4,
                     data: <?php echo json_encode($outputTypeAmounts); ?>,
-                    label: 'Saídas'
+                    label: 'Saídas',
+                    outputTotals: <?php echo json_encode($outputTypeTotals); ?>
                 }   
             ]
         },
@@ -158,6 +161,15 @@ document.addEventListener("DOMContentLoaded", function() {
                         size: 20,
                     },
                     color: '#000000',
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            var totals = context.dataset.outputTotals;
+                            var index = context.dataIndex;
+                            return 'Total gasto: ' + totals[index];
+                        }
+                    }
                 }
             }
         }

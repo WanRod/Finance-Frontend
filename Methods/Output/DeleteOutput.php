@@ -1,6 +1,6 @@
 <?php
 
-require_once '/../../Repositories/OutputRepository.php';
+require_once '../../Repositories/OutputRepository.php';
 
 if (!empty($_POST['id']))
 {

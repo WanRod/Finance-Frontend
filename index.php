@@ -66,23 +66,20 @@ else if (isset($_POST['dashboard']))
 </head>
 
 <body>
-<header>
-    <nav class="navbar py-3">
-        <div class="container-fluid mx-3 d-flex justify-content-between align-items-center row">
+    <header>
+        <nav class="row">
             <div class="d-flex align-items-center col">
                 <div class="border border-2 rounded-circle dollar-circle d-flex justify-content-center align-items-center">
                     <i class="fa-solid fa-dollar-sign dollar-sign"></i>
                 </div>
                 <h1 class="mt-1 mx-2">Finanças</h1>
             </div>
-            <div class="col text-end">
+            <div class="align-content-center text-end col">
                 <button class="btn btn-profile"><i class="fa-solid fa-circle-user me-1"></i>Perfil</button>
                 <button class="btn btn-logout" data-bs-toggle="modal" data-bs-target="#logout-modal"><i class="fa-solid fa-right-from-bracket me-1"></i>Sair</button>
             </div>
-        </div> 
-    </nav>
-</header>
-
+        </nav>
+    </header>
 
     <main>
         <div class="container">

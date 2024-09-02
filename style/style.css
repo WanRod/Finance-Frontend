@@ -32,17 +32,18 @@ body {
 }
 
 .dollar-circle {
-    height: 3rem;
-    width: 3rem;
+    height: 3em;
+    width: 3em;
 }
 
 .dollar-sign {
     color: #FFFFFF;
-    font-size: 1.5rem;
+    font-size: 1.5em;
 }
 
 nav {
     background: linear-gradient(180deg, rgb(0, 80, 160) 100%, rgb(10, 180, 255) 0%);
+    padding: 1%;
 }
 
 /* Main */
@@ -62,4 +63,23 @@ h1 {
     color: #FFFFFF;
     font-size: 1.75rem;
     margin-left: 1rem;
+}
+
+/* Login */
+.container-login {
+    background-color: #FFFFFF;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    padding: 30px;
+    max-height: 400px;
+    max-width: 350px;
+}
+
+.body-login {
+    background: url('img/login-background.png') no-repeat center center fixed;
+    background-size: cover;
+}
+
+.links-login {
+    font-size: small;
 }

@@ -5,26 +5,25 @@
 <fieldset class="form-fieldset">
     <form action="Methods/Input/InsertInput.php" method="POST">
         <div class="row">
-            <div class="col">
-                <input type="text" class="form-control" name="description" id="description" placeholder="Descrição" required>
+            <div class="col-8">
+                <input type="text" class="form-control" name="description" id="description" maxlength="100" placeholder="Descrição" required>
             </div>
 
-            <div class="col">
+            <div class="col-2">
                 <div class="input-group">
                     <span class="input-group-text currency-span">R$</span>
                     <input type="text" class="form-control" name="value" id="value" placeholder="00,00" required>
                 </div>
             </div>
 
-            <div class="col">
+            <div class="col-2">
                 <input type="date" class="form-control" name="date" id="date" value="<?= date('Y-m-d') ?>" required>
             </div>
-
-            <div class="buttons">
+        </div>
+        <div class="buttons">
                 <button class="btn me-2 save" type="submit"><i class="fa-solid fa-check"></i> Salvar</button>
                 <button class="btn clear" id="clear"><i class="fa-solid fa-trash-can"></i> Limpar</button>
             </div>
-        </div>
     </form>
 
     <script>

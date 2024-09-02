@@ -5,11 +5,11 @@
 <fieldset class="form-fieldset">
     <form action="Methods/Output/InsertOutput.php" method="POST">
             <div class="row">
-                <div class="col-sm">
+                <div class="col-3">
                     <select name="output-type-id" id="output-type-id" class="form-select" required>
                         <option selected disabled value="">Selecione um tipo</option>
 
-                        <?php
+                        <?php     
                             $outputTypes = OutputTypeRepository::getAll(); 
 
                             foreach ($outputTypes as $outputType)
@@ -20,18 +20,18 @@
                     </select>
                 </div>
 
-                <div class="col-sm">
-                    <input type="text" class="form-control" name="description" id="description" placeholder="Descrição" required>
+                <div class="col-5">
+                    <input type="text" class="form-control" name="description" id="description" maxlength="100" placeholder="Descrição" required>
                 </div>
 
-                <div class="col-sm">
+                <div class="col-2">
                     <div class="input-group">
                         <span class="input-group-text currency-span">R$</span>
                         <input type="text" class="form-control" name="value" id="value" placeholder="00,00" required>
                     </div>
                 </div>
 
-                <div class="col-sm">
+                <div class="col-2">
                     <input type="date" class="form-control" name="date" id="date" value="<?= date('Y-m-d') ?>" required>
                 </div>
 

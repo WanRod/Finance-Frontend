@@ -25,7 +25,7 @@
                 </div>
 
                 <div class="col-sm">
-                    <input type="text" class="form-control" name="edit-description" id="edit-description" placeholder="Descrição" required>
+                    <input type="text" class="form-control" name="edit-description" id="edit-description" maxlength="100" placeholder="Descrição" required>
                 </div>
 
                 <div class="col-sm">
