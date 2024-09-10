@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     borderColor: 'LimeGreen',
                     backgroundColor: 'rgb(50, 205, 50)',
                     pointStyle: 'circle',
-                    tension: 0.5,
+                    tension: 0,
                     pointBackgroundColor: 'LimeGreen'
                 },
                 {
@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     borderColor: 'Red',
                     backgroundColor: 'rgb(255, 0, 0)',
                     pointStyle: 'circle',
-                    tension: 0.5,
+                    tension: 0,
                     pointBackgroundColor: 'Red'
                 }
             ]
@@ -109,7 +109,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 },
                 title: {
                     display: true,
-                    text: 'Entradas/Saídas de <?php echo $currentYear; ?>',
+                    text: 'Entradas / Saídas de <?php echo $currentYear; ?>',
                     font: {
                         size: 20,
                     },
@@ -135,10 +135,10 @@ document.addEventListener("DOMContentLoaded", function() {
                         '#2E8BC0',
                         '#B1D4E0'
                     ],
-                    categoryPercentage: 0.4,
-                    data: <?php echo json_encode($outputTypeAmounts); ?>,
+                    categoryPercentage: 0.3,
+                    data: <?php echo json_encode($outputTypeTotals); ?>, // Transforma em valores absolutos
                     label: 'Saídas',
-                    outputTotals: <?php echo json_encode($outputTypeTotals); ?>
+                    outputAmounts: <?php echo json_encode($outputTypeAmounts); ?>
                 }   
             ]
         },
@@ -147,7 +147,8 @@ document.addEventListener("DOMContentLoaded", function() {
             maintainAspectRatio: false,
             scales: {
                 y: {
-                    beginAtZero: true
+                    beginAtZero: true,
+                    reverse: true
                 }
             },
             plugins: {
@@ -165,9 +166,10 @@ document.addEventListener("DOMContentLoaded", function() {
                 tooltip: {
                     callbacks: {
                         label: function(context) {
-                            var totals = context.dataset.outputTotals;
+                            var totals = context.dataset.data;
+                            var amounts = context.dataset.outputAmounts;
                             var index = context.dataIndex;
-                            return 'Total gasto: ' + totals[index];
+                            return 'Total gasto: R$ ' + totals[index] + ' | Quantidade de saídas: ' + amounts[index];
                         }
                     }
                 }

@@ -67,30 +67,30 @@ if (isset($_SESSION['token']))
     <script>
     $(document).ready(function()
     {
-        var cpfCnpjField = $('#cpfCnpj');
+        var cpfCnpj = $('#cpfCnpj');
 
         function applyMask()
         {
-            var valor = cpfCnpjField.val().replace(/\D/g, ''); 
-            if (valor.length + 1 > 11)
+            var value = cpfCnpj.val().replace(/\D/g, ''); 
+            
+            if (value.length + 1 > 11)
             {
-                cpfCnpjField.mask('00.000.000/0000-00', {reverse: false});
+                cpfCnpj.mask('00.000.000/0000-00', {reverse: false});
             }
             else 
             {
-                cpfCnpjField.mask('000.000.000-00', {reverse: false});
+                cpfCnpj.mask('000.000.000-00', {reverse: false});
             }
         }
 
-        cpfCnpjField.on('input', function() 
+        cpfCnpj.on('input', function() 
         {
             applyMask();
         });
 
-        // Remove caracteres especiais antes de enviar o formulário
         $('#loginForm').on('submit', function() 
         {
-            cpfCnpjField.val(cpfCnpjField.val().replace(/\D/g, ''));
+            cpfCnpj.val(cpfCnpj.val().replace(/\D/g, ''));
         });
     });
     </script>

@@ -1,7 +1,7 @@
 table {
     width: 100%; 
-    margin-top: 20px;
-    border-radius: 2em;
+    margin-top: 15px;
+    overflow-x: auto;
 }
 
 thead {
@@ -13,7 +13,7 @@ thead {
 th {
     color: white;
     padding: 5px;
-    border: 1px  solid #ccc;
+    border: 1px solid #ccc;
 }
 
 tbody {
@@ -23,7 +23,6 @@ tbody {
 td {
     padding: 5px;
     border: 1px solid #ccc;
-    word-wrap: break-word;
 }
 
 tbody tr:nth-child(odd) {
@@ -75,5 +74,16 @@ tbody tr:hover {
 }
 
 .action-col {
-    width: 10%;
+    width: 8%;
+}
+
+/* Estilos para telas pequenas */
+@media screen and (max-width: 600px) {
+
+    table {
+        display: block;
+        max-width: 100%;
+    }
+
+
 }

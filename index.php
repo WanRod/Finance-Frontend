@@ -68,13 +68,13 @@ else if (isset($_POST['dashboard']))
 <body>
     <header>
         <nav class="row">
-            <div class="d-flex align-items-center col">
+            <div class="col d-flex align-items-center ">
                 <div class="border border-2 rounded-circle dollar-circle d-flex justify-content-center align-items-center">
                     <i class="fa-solid fa-dollar-sign dollar-sign"></i>
                 </div>
                 <h1 class="mt-1 mx-2">Finanças</h1>
             </div>
-            <div class="align-content-center text-end col">
+            <div class="col align-content-center text-end ">
                 <button class="btn btn-profile"><i class="fa-solid fa-circle-user me-1"></i>Perfil</button>
                 <button class="btn btn-logout" data-bs-toggle="modal" data-bs-target="#logout-modal"><i class="fa-solid fa-right-from-bracket me-1"></i>Sair</button>
             </div>

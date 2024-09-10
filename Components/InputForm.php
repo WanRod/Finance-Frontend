@@ -21,9 +21,9 @@
             </div>
         </div>
         <div class="buttons">
-                <button class="btn me-2 save" type="submit"><i class="fa-solid fa-check"></i> Salvar</button>
-                <button class="btn clear" id="clear"><i class="fa-solid fa-trash-can"></i> Limpar</button>
-            </div>
+            <button class="btn me-2 save" type="submit"><i class="fa-solid fa-check"></i> Salvar</button>
+            <button class="btn clear" id="clear"><i class="fa-solid fa-trash-can"></i> Limpar</button>
+        </div>
     </form>
 
     <script>

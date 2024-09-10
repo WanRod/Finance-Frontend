@@ -6,6 +6,12 @@
 /* Body */
 body { 
     background-color: #F8F8FF;
+    overflow-x: hidden;
+}
+
+.fa-triangle-exclamation {
+    color: #FFA500;
+    font-size: 5rem;
 }
 
 /* Header */
