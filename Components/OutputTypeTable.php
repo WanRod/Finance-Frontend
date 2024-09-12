@@ -76,7 +76,6 @@ $(document).ready(function()
         $('#confirm-delete').removeAttr('data-id');
     });
 
-    // Botão de editar
     $('.edit-button').on('click', function() 
     {
         var id = $(this).data('id');

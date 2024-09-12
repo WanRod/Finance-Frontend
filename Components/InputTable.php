@@ -79,7 +79,6 @@ $(document).ready(function()
         });
     });
 
-    // Botão de editar
     $('.edit-button').on('click', function() 
     {
         var row = $(this).closest('tr');

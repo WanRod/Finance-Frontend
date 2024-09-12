@@ -2,6 +2,19 @@
 @import url('table.css');
 @import url('dashboard.css');
 
+@media (min-width: 576px) {
+    .custom-input {
+        width: 60%;
+    }
+}
+
+.form-control, .input-group-text, .form-select {
+    border: #DEE2E6 2px solid
+}
+
+.input-group-text {
+    border-right: 0px;
+}
 
 /* Body */
 body { 

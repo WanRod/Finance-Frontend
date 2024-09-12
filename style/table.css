@@ -1,19 +1,19 @@
 table {
-    width: 100%; 
+    border-collapse: collapse;
     margin-top: 15px;
     overflow-x: auto;
+    width: 100%;
 }
 
 thead {
-    background: rgb(12,176,254);
     background: linear-gradient(103deg, rgba(12,176,254,1) 0%, rgba(0,80,161,1) 75%);
     text-align: center;
 }
 
 th {
-    color: white;
+    border: 1px solid #CCCCCC;
+    color: #FFFFFF;
     padding: 5px;
-    border: 1px solid #ccc;
 }
 
 tbody {
@@ -21,8 +21,8 @@ tbody {
 }
 
 td {
+    border: 1px solid #CCCCCC;
     padding: 5px;
-    border: 1px solid #ccc;
 }
 
 tbody tr:nth-child(odd) {
@@ -74,16 +74,24 @@ tbody tr:hover {
 }
 
 .action-col {
-    width: 8%;
+    text-align: center;
+    white-space: nowrap; 
+    width: 8%; 
 }
 
-/* Estilos para telas pequenas */
-@media screen and (max-width: 600px) {
+.action-col button {
+    display: inline-block;
+}
 
+@media (max-width: 767.98px) {
+    .action-col {
+        width: 20%;
+    }
+}
+
+@media screen and (max-width: 600px) {
     table {
         display: block;
         max-width: 100%;
     }
-
-
 }
