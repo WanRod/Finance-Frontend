@@ -24,6 +24,11 @@ class DashboardRepository
             'Authorization: Bearer ' . $token
         ];
 
+        if ($method === 'GET' && $data != null)
+        {
+            $url .= '?' . http_build_query($data);
+        }
+
         $options = [
             'http' => [
                 'method' => $method,
@@ -39,7 +44,6 @@ class DashboardRepository
         $context = stream_context_create($options);
         $result = @file_get_contents($url, false, $context);
 
-        //Ver se remove e retorna só a validação
         if ($result === FALSE)
         {
             $error = error_get_last();
@@ -51,7 +55,12 @@ class DashboardRepository
 
     public static function getData($year, $month)
     {
-        $url = self::$baseUrl . "/dashboard/data/{$year}/{$month}";
-        return self::makeRequest('GET', $url);
+        $url = self::$baseUrl . "/dashboard/data";
+        $data = [
+            'year' => $year,
+            'month' => $month
+        ];
+        
+        return self::makeRequest('GET', $url, $data);
     }    
 }

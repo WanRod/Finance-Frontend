@@ -1,16 +1,11 @@
 <?php
-if (!isset($_SESSION))
-{
-    session_start();
-}
+session_start();
 
-if (isset($_POST['logout']))
-{
+if (isset($_POST['logout'])) {
     unset($_SESSION['token']);
 }
 
-if (isset($_SESSION['token'])) 
-{
+if (isset($_SESSION['token'])) {
     header('Location: /finance-frontend/');
     exit();
 }
@@ -40,7 +35,7 @@ if (isset($_SESSION['token']))
             <form action="Methods/Login/LoginRequest.php" method="POST" id="loginForm">
                 <div class="mb-4">
                     <label for="cpfCnpj" class="fw-bold">CPF / CNPJ</label>
-                    <input type="text" class="form-control" id="cpfCnpj" name="cpfCnpj" required>
+                    <input type="text" class="form-control" id="cpfCnpj" name="cpfCnpj" value="<?php echo isset($_SESSION['cpfCnpj']) ? htmlspecialchars($_SESSION['cpfCnpj']) : ''; ?>" required>
                 </div>
 
                 <div class="mb-4">
@@ -64,33 +59,55 @@ if (isset($_SESSION['token']))
         </div>
     </main>
 
+    <!-- Modal para mensagens -->
+    <?php if (isset($_SESSION['mensagem'])): ?>
+    <div class="modal fade" id="mensagemModal" tabindex="-1" role="dialog" aria-labelledby="mensagemModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <?php echo $_SESSION['mensagem']['texto']; ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
-    $(document).ready(function()
-    {
+        $(document).ready(function()
+        {
+            $('#mensagemModal').modal('show');
+
+            setTimeout(function()
+            {
+                $('#mensagemModal').modal('hide');
+            }, 6000);
+
+            <?php unset($_SESSION['mensagem']); ?>
+        });
+    </script>
+
+    <?php endif; ?>
+
+    <script>
+    $(document).ready(function() {
         var cpfCnpj = $('#cpfCnpj');
 
-        function applyMask()
-        {
-            var value = cpfCnpj.val().replace(/\D/g, ''); 
-            
-            if (value.length + 1 > 11)
-            {
-                cpfCnpj.mask('00.000.000/0000-00', {reverse: false});
-            }
-            else 
-            {
-                cpfCnpj.mask('000.000.000-00', {reverse: false});
-            }
-        }
+        cpfCnpj.on('input', function() {
+            var valor = cpfCnpj.val().replace(/\D/g, '');
 
-        cpfCnpj.on('input', function() 
-        {
-            applyMask();
-        });
+            if (valor.length <= 11) {
+                valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
+                valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
+                valor = valor.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+            } else {
+                valor = valor.substring(0, 14);
+                valor = valor.replace(/^(\d{2})(\d)/, '$1.$2');
+                valor = valor.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
+                valor = valor.replace(/\.(\d{3})(\d)/, '.$1/$2');
+                valor = valor.replace(/(\d{4})(\d)/, '$1-$2');
+            }
 
-        $('#loginForm').on('submit', function() 
-        {
-            cpfCnpj.val(cpfCnpj.val().replace(/\D/g, ''));
+            cpfCnpj.val(valor);
         });
     });
     </script>

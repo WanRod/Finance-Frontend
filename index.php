@@ -14,6 +14,7 @@ require_once 'Repositories/InputRepository.php';
 require_once 'Repositories/OutputRepository.php';
 require_once 'Repositories/OutputTypeRepository.php';
 require_once 'Repositories/DashboardRepository.php';
+require_once 'Repositories/UserRepository.php';
 
 date_default_timezone_set("America/Fortaleza");
 
@@ -68,14 +69,14 @@ else if (isset($_POST['dashboard']))
 <body>
     <header>
         <nav class="row">
-            <div class="col d-flex align-items-center ">
+            <div class="col d-flex align-items-center header-logo">
                 <div class="border border-2 rounded-circle dollar-circle d-flex justify-content-center align-items-center">
                     <i class="fa-solid fa-dollar-sign dollar-sign"></i>
                 </div>
                 <h1 class="mt-1 mx-2">Finanças</h1>
             </div>
             <div class="col align-content-center text-end ">
-                <button class="btn btn-profile"><i class="fa-solid fa-circle-user me-1"></i>Perfil</button>
+                <button class="btn btn-profile" data-bs-toggle="modal" data-bs-target="#profile-modal"><i class="fa-solid fa-circle-user me-1"></i>Perfil</button>
                 <button class="btn btn-logout" data-bs-toggle="modal" data-bs-target="#logout-modal"><i class="fa-solid fa-right-from-bracket me-1"></i>Sair</button>
             </div>
         </nav>
@@ -83,7 +84,7 @@ else if (isset($_POST['dashboard']))
 
     <main>
         <div class="container">
-            <form method="post">
+            <form method="POST">
                 <button class="btn btn-outline-primary rounded-pill my-4 menu" type="submit" name="toggle"><i class="fa-solid fa-rotate-right"></i> Trocar de página</button>
                 <button class="btn btn-outline-info rounded-pill my-4 menu" type="submit" name="dashboard"><i class="fa-solid fa-chart-pie"></i> Dashboard</button>
             </form>
@@ -121,6 +122,7 @@ else if (isset($_POST['dashboard']))
 
     <?php
         include_once 'Components/Modals/LogoutModal.html';
+        include_once 'Components/Modals/ProfileModal.php';
     ?>
 
     <script>

@@ -49,7 +49,7 @@ foreach ($data['output_types'] as $outputType)
     </div>
 
     <div class="data-div align-content-center">
-        <h5>Saldo</h5>
+        <h5>Saldo do mês</h5>
         <p class="data"><span class="symbol-blue">R$</span><span class="value"><?php echo $remainingAmount ?></span></p>
     </div>
 </div>

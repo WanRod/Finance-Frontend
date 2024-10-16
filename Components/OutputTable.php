@@ -56,6 +56,33 @@ include_once 'Components/Modals/UpdateOutputModal.php';
 <script>
 $(document).ready(function() 
 {
+    function maskValue(input) 
+    {
+        var value = input.value;
+        
+        value = value.replace(/[^\d-]/g, '');
+        
+        if (value.charAt(0) != '-') 
+        {
+            value = '-' + value;
+        }
+        
+        if (value == '-') 
+        {
+            value = '';
+        }
+        
+        value = value.replace(/(\d{1,})(\d{2})$/, '$1,$2');
+        value = value.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+        
+        input.value = value;
+    }
+
+    $('#edit-value').on('input', function () 
+    {
+        maskValue(this);
+    });
+
     $('.delete-button').on('click', function() 
     {
         var id = $(this).data('id');
@@ -107,8 +134,10 @@ $(document).ready(function()
         var id = $('#edit-id').val();
         var outputTypeId = $('#edit-output-type-id').val();
         var description = $('#edit-description').val();
-        var value = $('#edit-value').val();
         var date = $('#edit-date').val();
+        var value = $('#edit-value').val();
+        value = value.replace(/\./g, '');
+        value = value.replace(',', '.');
 
         $.ajax({
             url: 'Methods/Output/UpdateOutput.php',

@@ -21,9 +21,21 @@ class LoginRepository
         }
 
         $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+        if ($response === false)
+        {
+            curl_close($ch);
+            return null;
+        }
+
+        $decodedResponse = json_decode($response, true);
         curl_close($ch);
 
-        return json_decode($response, true);
+        return [
+            'body' => $decodedResponse,
+            'httpCode' => $httpCode
+        ];
     }
 
     public static function login($cpfCnpj, $password)
@@ -32,15 +44,23 @@ class LoginRepository
             'cpf_cnpj' => $cpfCnpj,
             'password' => $password
         ];
-        
+
         $response = self::makeRequest('POST', self::$baseUrl, $data);
 
-        if (isset($response['token']))
+        if ($response !== null && $response['httpCode'] === 200 && isset($response['body']['token']))
         {
             session_start();
-            $_SESSION['token'] = $response['token'];
+            $_SESSION['token'] = $response['body']['token'];
+
+            return $response['body'];
+        }
+        else if ($response !== null && $response['httpCode'] === 400)
+        {
+            return [
+                'error' => 'Bad Request'
+            ];
         }
 
-        return $response;
+        return null;
     }
 }

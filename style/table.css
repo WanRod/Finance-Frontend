@@ -10,19 +10,17 @@ thead {
     text-align: center;
 }
 
-th {
+th, td {
     border: 1px solid #CCCCCC;
-    color: #FFFFFF;
     padding: 5px;
+}
+
+th {
+    color: #FFFFFF;
 }
 
 tbody {
     text-align: center;
-}
-
-td {
-    border: 1px solid #CCCCCC;
-    padding: 5px;
 }
 
 tbody tr:nth-child(odd) {
@@ -35,6 +33,32 @@ tbody tr:nth-child(even) {
 
 tbody tr:hover {
     background-color: #D3D3D3;
+}
+
+.action-col {
+    text-align: center;
+    white-space: nowrap;
+    width: 8%;
+}
+
+.action-col button {
+    display: inline-block;
+}
+
+.delete-button {
+    background-color: #FFFFFF;
+    border-color: #FF0000;
+    border-radius: 50%;
+    border-style: solid;
+    color: #FF0000;
+    padding: 3px;
+    margin-left: 0.5%;
+    margin-right: 0.5%;
+}
+
+.delete-button:hover {
+    border-color: rgba(255, 0, 0, 0.5);
+    color: rgba(255, 0, 0, 0.5);
 }
 
 .edit-button {
@@ -57,33 +81,7 @@ tbody tr:hover {
     margin: 4px;
 }
 
-.delete-button {
-    background-color: #FFFFFF;
-    border-color: #FF0000;
-    border-radius: 50%;
-    border-style: solid;
-    color: #FF0000;
-    padding: 3px;
-    margin-left: 0.5%;
-    margin-right: 0.5%;
-}
-
-.delete-button:hover {
-    border-color: rgba(255, 0, 0, 0.5);
-    color: rgba(255, 0, 0, 0.5);
-}
-
-.action-col {
-    text-align: center;
-    white-space: nowrap; 
-    width: 8%; 
-}
-
-.action-col button {
-    display: inline-block;
-}
-
-@media (max-width: 767.98px) {
+@media (max-width: 768px) {
     .action-col {
         width: 20%;
     }
