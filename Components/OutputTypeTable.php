@@ -15,9 +15,19 @@ include_once 'Components/Modals/UpdateOutputTypeModal.html';
         <?php
         $outputTypes = OutputTypeRepository::getAll();
 
-        if ($outputTypes != null) 
+        if (isset($outputTypes['error'])) 
         {
-            foreach ($outputTypes as $outputType)
+            echo "
+                <tr>
+                    <td colspan=\"2\" class=\"text-center text-danger\">
+                        Erro ao carregar os dados: {$outputTypes['error']}
+                    </td>
+                </tr>
+            ";
+        } 
+        elseif ($outputTypes != null && count($outputTypes) > 0) 
+        {
+            foreach ($outputTypes as $outputType) 
             {
                 echo "
                     <tr>

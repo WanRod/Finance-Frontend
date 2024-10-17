@@ -11,17 +11,25 @@ class UserRepository
             session_start();
         }
     
-        $token = $_SESSION['token'] ?? null;
-    
-        if (!$token)
+        $token = null;
+
+        if ($method != 'POST')
         {
-            die('Token de autorização não encontrado.');
+            $token = $_SESSION['token'];
+
+            if (!$token)
+            {
+                die('Token de autorização não encontrado.');
+            }
         }
     
-        $headers = [
-            'Authorization: Bearer ' . $token
-        ];
+        $headers = [];
     
+        if ($token)
+        {
+            $headers[] = 'Authorization: Bearer ' . $token;
+        }
+
         if ($method === 'POST' || $method === 'PUT') {
             $headers[] = 'Content-Type: application/json';
         }
@@ -57,13 +65,13 @@ class UserRepository
         return self::makeRequest('GET', $url);
     }
 
-    public static function insert($description, $value, $date)
+    public static function insert($name, $cpfCnpj, $password)
     {
         $url = self::$baseUrl . '/user';
         $data = [
-            'description' => $description,
-            'value' => $value,
-            'date' => $date
+            'name' => $name,
+            'cpf_cnpj' => $cpfCnpj,
+            'password' => $password
         ];
     
         return self::makeRequest('POST', $url, $data);
