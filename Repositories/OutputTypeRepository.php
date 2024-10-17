@@ -15,7 +15,7 @@ class OutputTypeRepository
     
         if (!$token)
         {
-            die('Token de autorização não encontrado.');
+            return ['error' => 'Token de autorização não encontrado, faça o login novamente.'];
         }
     
         $headers = [
@@ -39,12 +39,20 @@ class OutputTypeRepository
         }
     
         $context = stream_context_create($options);
-        $result = file_get_contents($url, false, $context);
-    
-        if ($result === FALSE)
-        {
-            $error = error_get_last();
-            die('Erro ao fazer a requisição: ' . $error['message']);
+
+        try {
+            $result = @file_get_contents($url, false, $context);
+            if ($result === false) {
+                $error = error_get_last();
+                
+                if (strpos($error['message'], 'Failed to open stream') !== false) {
+                    throw new Exception('A API está offline.');
+                } else {
+                    throw new Exception('Erro ao fazer a requisição: ' . $error['message']);
+                }
+            }
+        } catch (Exception $e) {
+            return ['error' => $e->getMessage()];
         }
     
         return json_decode($result, true);

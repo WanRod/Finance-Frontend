@@ -17,12 +17,22 @@ include_once 'Components/Modals/UpdateInputModal.html';
         <?php
         $inputs = InputRepository::getAll();
 
-        if ($inputs != null) 
+        if (isset($inputs['error'])) 
+        {
+            echo "
+                <tr>
+                    <td colspan=\"4\" class=\"text-center text-danger\">
+                        Erro ao carregar os dados: {$inputs['error']}
+                    </td>
+                </tr>
+            ";
+        } 
+        elseif ($inputs != null && count($inputs) > 0)  
         {
             foreach ($inputs as $input) 
             {
-                $value = str_replace('.', ',', $input['value']);
-                
+                $value = number_format((float)str_replace('.', '', $input['value']), 2, ',', '.');
+
                 $date = DateTime::createFromFormat('Y-m-d', $input['date'])->format('d/m/Y');
 
                 echo "

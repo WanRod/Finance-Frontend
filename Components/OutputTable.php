@@ -18,12 +18,21 @@ include_once 'Components/Modals/UpdateOutputModal.php';
         <?php
         $outputs = OutputRepository::getAll();
 
-        if ($outputs != null) 
+        if (isset($outputs['error'])) 
+        {
+            echo "
+                <tr>
+                    <td colspan=\"5\" class=\"text-center text-danger\">
+                        Erro ao carregar os dados: {$outputs['error']}
+                    </td>
+                </tr>
+            ";
+        } 
+        elseif ($outputs != null && count($outputs) > 0) 
         {
             foreach ($outputs as $output) 
             {
-                $value = str_replace('.', ',', $output['value']);
-                $value = number_format((float)str_replace(',', '.', $value), 2, ',', '');
+                $value = number_format((float)str_replace('.', '', $output['value']), 2, ',', '.');
 
                 $date = DateTime::createFromFormat('Y-m-d', $output['date'])->format('d/m/Y');
 

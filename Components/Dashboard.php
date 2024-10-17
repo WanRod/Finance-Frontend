@@ -2,14 +2,26 @@
 $currentMonth = date('m');
 $currentYear = date('Y');
 
+if (isset($_POST['month']) && isset($_POST['year']))
+{
+    $currentMonth = $_POST['month'];
+    $currentYear = $_POST['year'];
+}
+
+$years = DashboardRepository::getAvailableYears();
 $data = DashboardRepository::getData($currentYear, $currentMonth);
 
-$totalInput = str_replace('.', ',', $data['total_input']);
-$totalOutput = str_replace('.', ',', $data['total_output']);
-$percentSpent = str_replace('.', ',', $data['percent_spent']);
-$remainingAmount = str_replace('.', ',', $data['remaining_amount']);
+if (!$years)
+{
+    $years = [$currentYear];
+}
 
-$months = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
+$totalInput = number_format((float)$data['total_input'], 2, ',', '.');
+$totalOutput = number_format((float)$data['total_output'], 2, ',', '.');
+$percentSpent = number_format((float)$data['percent_spent'], 2, ',', '.');
+$remainingAmount = number_format((float)$data['remaining_amount'], 2, ',', '.');
+
+$months = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
 $inputs = [];
 $outputs = [];
 
@@ -30,6 +42,39 @@ foreach ($data['output_types'] as $outputType)
     $outputTypeTotals[] = $outputType['total'];
 }
 ?>
+
+<form action="" method="POST" class="d-flex align-items-center justify-content-start" style="max-width: 410px;">
+    <div class="mx-2">
+        <b>Ano: </b>
+    </div>
+
+    <div>
+        <select name="year" class="form-select" style="max-width: 100px;" onchange="this.form.submit()">
+            <?php
+            foreach($years as $year) {
+                $selected = ($year == $currentYear) ? 'selected' : '';
+                echo "<option value=\"{$year}\" {$selected}>{$year}</option>";
+            }
+            ?>
+        </select>
+    </div>
+
+    <div class="mx-2">
+        <b>Mês: </b>
+    </div>
+
+    <div>
+        <select name="month" class="form-select" style="max-width: 150px;" onchange="this.form.submit()">
+            <?php
+            for ($i = 1; $i < 13; $i++) {
+                $selected = ($i == $currentMonth) ? 'selected' : '';
+                echo "<option value=\"{$i}\" {$selected}>{$months[$i-1]}</option>";
+            }
+            ?>
+        </select>
+    </div>
+</form>
+
 
 <!-- Dashboard data -->
 <div class="data-container">
@@ -73,7 +118,9 @@ document.addEventListener("DOMContentLoaded", function() {
     var lineChart = new Chart(lineChartContext, {
         type: 'line',
         data: {
-            labels: <?php echo json_encode($months); ?>,
+            labels: <?php echo json_encode(array_map(function($month) {
+            return substr($month, 0, 3); // Pega os três primeiros caracteres do mês
+            }, $months)); ?>,
             datasets: [
                 {
                     label: 'Entradas',
@@ -136,7 +183,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         '#B1D4E0'
                     ],
                     categoryPercentage: 0.3,
-                    data: <?php echo json_encode($outputTypeTotals); ?>, // Transforma em valores absolutos
+                    data: <?php echo json_encode($outputTypeTotals); ?>,
                     label: 'Saídas',
                     outputAmounts: <?php echo json_encode($outputTypeAmounts); ?>
                 }   
@@ -157,7 +204,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 },
                 title: {
                     display: true,
-                    text: 'Principais Tipos de Saídas do mês <?php echo $currentMonth; ?>',
+                    text: 'Principais Tipos de Saídas de <?php echo $months[$currentMonth-1]; ?>',
                     font: {
                         size: 20,
                     },
@@ -169,7 +216,7 @@ document.addEventListener("DOMContentLoaded", function() {
                             var totals = context.dataset.data;
                             var amounts = context.dataset.outputAmounts;
                             var index = context.dataIndex;
-                            return 'Total gasto: R$ ' + totals[index] + ' | Quantidade de saídas: ' + amounts[index];
+                            return 'Total gasto: R$ ' + totals[index].toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ' | Quantidade de saídas: ' + amounts[index];
                         }
                     }
                 }

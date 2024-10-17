@@ -10,8 +10,11 @@
                     <option selected disabled value="">Selecione um tipo</option>
                     <?php     
                         $outputTypes = OutputTypeRepository::getAll(); 
-                        foreach ($outputTypes as $outputType) {
-                            echo "<option value=\"{$outputType['id']}\">{$outputType['description']}</option>";
+                        
+                        if ($outputTypes != null && !isset($outputTypes['error'])) {
+                            foreach ($outputTypes as $outputType) {
+                                echo "<option value=\"{$outputType['id']}\">{$outputType['description']}</option>";
+                            }
                         }
                     ?>
                 </select>
