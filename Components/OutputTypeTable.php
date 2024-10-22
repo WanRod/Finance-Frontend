@@ -1,9 +1,16 @@
 <?php
 include_once 'Components/Modals/DeleteModal.html';
 include_once 'Components/Modals/UpdateOutputTypeModal.html';
+
+$currentQuantity = 20;
+
+if (isset($_POST['quantity']))
+{
+    $currentQuantity = $_POST['quantity'];
+}
 ?>
 
-<table>
+<table class="mb-2">
     <thead>
         <tr>
             <th>Descrição</th>
@@ -13,7 +20,7 @@ include_once 'Components/Modals/UpdateOutputTypeModal.html';
 
     <tbody>
         <?php
-        $outputTypes = OutputTypeRepository::getAll();
+        $outputTypes = OutputTypeRepository::getAll($currentQuantity);
 
         if (isset($outputTypes['error'])) 
         {
@@ -51,6 +58,24 @@ include_once 'Components/Modals/UpdateOutputTypeModal.html';
         ?>
     </tbody>
 </table>
+
+<form action="" method="POST" class="d-flex align-items-center justify-content-end">
+    <div class="mx-2">
+        <b>Quantidade: </b>
+    </div>
+
+    <div>
+        <select name="quantity" class="form-select" style="max-width: 80px;" onchange="submit()">
+            <option value="1" <?= $currentQuantity == 1 ? 'selected' : ''; ?>>1</option>
+            <option value="5" <?= $currentQuantity == 5 ? 'selected' : ''; ?>>5</option>
+            <option value="10" <?= $currentQuantity == 10 ? 'selected' : ''; ?>>10</option>
+            <option value="20" <?= $currentQuantity == 20 ? 'selected' : ''; ?>>20</option>
+            <option value="50" <?= $currentQuantity == 50 ? 'selected' : ''; ?>>50</option>
+            <option value="100" <?= $currentQuantity == 100 ? 'selected' : ''; ?>>100</option>
+            <option value="200" <?= $currentQuantity == 200 ? 'selected' : ''; ?>>200</option>
+        </select>
+    </div>
+</form>
 
 <script>
 $(document).ready(function() 

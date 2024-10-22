@@ -21,6 +21,11 @@ class InputRepository
         $headers = [
             'Authorization: Bearer ' . $token
         ];
+
+        if ($method === 'GET' && $data != null)
+        {
+            $url .= '?' . http_build_query($data);
+        }
     
         if ($method === 'POST' || $method === 'PUT') {
             $headers[] = 'Content-Type: application/json';
@@ -58,10 +63,13 @@ class InputRepository
         return json_decode($result, true);
     }
 
-    public static function getAll()
+    public static function getAll($currentQuantity)
     {
         $url = self::$baseUrl . '/input';
-        return self::makeRequest('GET', $url);
+        $data = [
+            'quantity' => $currentQuantity
+        ];
+        return self::makeRequest('GET', $url, $data);
     }
 
     public static function getById($id)
