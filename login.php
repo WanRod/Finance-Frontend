@@ -31,7 +31,7 @@ if (isset($_SESSION['token']))
     <main class="d-flex align-items-center vh-100">
         <div class="container container-login">
             <div class="text-center mb-5">
-                <h2 class="fw-bold"><u>Login</u></h2>
+                <h2 class="fw-bold"><u>Finanças - Login</u></h2>
             </div>
 
             <form action="Methods/Login/LoginRequest.php" method="POST" id="loginForm">
@@ -56,33 +56,36 @@ if (isset($_SESSION['token']))
         </div>
     </main>
 
-    <!-- Modal para mensagens -->
-    <?php if (isset($_SESSION['mensagem'])): ?>
-    <div class="modal fade" id="mensagemModal" tabindex="-1" role="dialog" aria-labelledby="mensagemModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <?php echo $_SESSION['mensagem']['texto']; ?>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <?php if (isset($_SESSION['message'])): ?>
+        <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <?php echo htmlspecialchars($_SESSION['message'], ENT_QUOTES, 'UTF-8'); ?>
+                            </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <script>
-        $(document).ready(function()
-        {
-            $('#mensagemModal').modal('show');
 
-            setTimeout(function()
-            {
-                $('#mensagemModal').modal('hide');
-            }, 6000);
+        <script>
+            $(document).ready(function() {
+                $('#messageModal').modal('show');
 
-            <?php unset($_SESSION['mensagem']); ?>
-        });
-    </script>
-
+                setTimeout(function() {
+                    $('#messageModal').modal('hide');
+                }, 5000);
+                
+                $('#messageModal').on('hidden.bs.modal', function () {
+                    <?php unset($_SESSION['message']); ?>
+                });
+            });
+        </script>
     <?php endif; ?>
 
     <script>

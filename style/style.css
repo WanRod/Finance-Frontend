@@ -130,8 +130,12 @@ h2, h3 {
     }
 }
 
-.form-control, .input-group-text, .form-select {
+.form-control, .input-group-text, .form-select, .form-select-sm {
     border: #DEE2E6 2px solid;
+}
+
+.form-select, .form-select-sm {
+    background-color: #FFFFFF;
 }
 
 .input-group-text {

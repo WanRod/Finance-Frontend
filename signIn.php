@@ -23,7 +23,7 @@ if (isset($_SESSION['token']))
     <title>Finanças</title>
 </head>
 
-<body>
+<body class="d-flex flex-column vh-100">
     <header>
         <nav class="row">
             <div class="col d-flex align-items-center header-logo">
@@ -40,7 +40,7 @@ if (isset($_SESSION['token']))
         </nav>
     </header>
 
-    <main class="d-flex justify-content-center align-items-center vh-100">
+    <main class="d-flex flex-grow-1 justify-content-center align-items-center">
         <div class="container container-sign-in">
             <div class="text-center">
                 <h3>Cadastrar usuário</h3>
@@ -49,7 +49,7 @@ if (isset($_SESSION['token']))
             <form action="Methods/User/InsertUser.php" method="POST">
                 <div class="mb-2">
                     <label for="name" class="fw-bold">Nome</label>
-                    <input type="text" class="form-control" id="namename" name="name" maxlength="50" required>
+                    <input type="text" class="form-control" id="name" name="name" maxlength="50" required>
                 </div>
 
                 <div class="mb-2">

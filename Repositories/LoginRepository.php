@@ -11,8 +11,7 @@ class LoginRepository
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
 
-        if ($data != null)
-        {
+        if ($data != null) {
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
             curl_setopt($ch, CURLOPT_HTTPHEADER, [
                 'Content-Type: application/json',
@@ -23,8 +22,7 @@ class LoginRepository
         $response = curl_exec($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-        if ($response === false)
-        {
+        if ($response === false) {
             curl_close($ch);
             return null;
         }
@@ -47,17 +45,15 @@ class LoginRepository
 
         $response = self::makeRequest('POST', self::$baseUrl, $data);
 
-        if ($response !== null && $response['httpCode'] === 200 && isset($response['body']['token']))
-        {
-            session_start();
-            $_SESSION['token'] = $response['body']['token'];
-
+        if ($response !== null && $response['httpCode'] >= 200 && $response['httpCode'] <= 299 && isset($response['body']['token'])) {
             return $response['body'];
         }
-        else if ($response !== null && $response['httpCode'] === 400)
-        {
+
+        if ($response !== null && $response['httpCode'] >= 400 && isset($response['body']['message'])) {
             return [
-                'error' => 'Bad Request'
+                'error' => [
+                    'message' => $response['body']['message']
+                ]
             ];
         }
 

@@ -49,7 +49,7 @@ foreach ($data['output_types'] as $outputType)
     </div>
 
     <div>
-        <select name="year" class="form-select" style="max-width: 100px;" onchange="this.form.submit()">
+        <select name="year" class="form-select-sm" style="max-width: 100px;" onchange="this.form.submit()">
             <?php
             foreach($years as $year) {
                 $selected = ($year == $currentYear) ? 'selected' : '';
@@ -64,7 +64,7 @@ foreach ($data['output_types'] as $outputType)
     </div>
 
     <div>
-        <select name="month" class="form-select" style="max-width: 150px;" onchange="this.form.submit()">
+        <select name="month" class="form-select-sm" style="max-width: 150px;" onchange="this.form.submit()">
             <?php
             for ($i = 1; $i < 13; $i++) {
                 $selected = ($i == $currentMonth) ? 'selected' : '';
