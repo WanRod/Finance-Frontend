@@ -31,13 +31,13 @@ if (isset($_SESSION['token']))
     <main class="d-flex align-items-center vh-100">
         <div class="container container-login">
             <div class="text-center mb-5">
-                <h2 class="fw-bold"><u>Finanças - Login</u></h2>
+                <h2 class="fw-bold"><u>Login</u></h2>
             </div>
 
             <form action="Methods/Login/LoginRequest.php" method="POST" id="loginForm">
                 <div class="mb-4">
                     <label for="cpfCnpj" class="fw-bold">CPF / CNPJ</label>
-                    <input type="text" class="form-control" id="cpfCnpj" name="cpfCnpj" value="<?php echo isset($_SESSION['cpfCnpj']) ? htmlspecialchars($_SESSION['cpfCnpj']) : ''; ?>" required>
+                    <input type="text" class="form-control" id="cpfCnpj" name="cpfCnpj" value="<?php echo isset($_SESSION['cpfCnpj']) ? htmlspecialchars($_SESSION['cpfCnpj']) : ''; unset($_SESSION['cpfCnpj']);?>" required>
                 </div>
 
                 <div class="mb-4">

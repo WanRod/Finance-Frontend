@@ -1,10 +1,10 @@
 <?php
 
-require_once '../../Repositories/OutputRepository.php';
+require_once '../../Repositories/InputTypeRepository.php';
 
-if (!empty($_POST['output-type-id']) && !empty($_POST['description']) && !empty($_POST['value']) && !empty($_POST['date']))
+if (!empty($_POST['id']))
 {
-    $response = OutputRepository::insert($_POST['output-type-id'], $_POST['description'], $_POST['value'], $_POST['date']);
+    $response = InputTypeRepository::delete($_POST['id']);
 
     if ($response == null)
     {

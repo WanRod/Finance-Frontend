@@ -5,29 +5,51 @@
                 <?php
                     $user = UserRepository::getData();
 
-                    echo '<div>
-                            <h2>' . $user['name'] . '</h2>
-                          </div>';
-            
-                    echo '<div>
-                            <b>' . $user['cpf_cnpj'] . '</b>
-                          </div>';
+                    if ($user === null)
+                    {
+                        echo "<div>
+                                <b>Não foi possível conectar à API, tente novamente mais tarde.</b>
+                              </div>";
+                    }
+                    else if (!isset($user['error']['message']))
+                    {
+                        $user =  $user['body'];
+
+                        echo '<div>
+                                <h2>' . $user['name'] . '</h2>
+                              </div>';
+        
+                        echo '<div>
+                                <b>' . $user['cpf_cnpj'] . '</b>
+                              </div>';
+                ?>
+
+                    <fieldset class="custom-fieldset">
+                        <legend><i class="fa-solid fa-key"></i> Alterar Senha</legend>
+                        <div class="row">
+                            <div class="col">
+                                <input type="password" class="form-control" name="newPassword" maxlength="100" placeholder="Nova senha" required>
+                            </div>
+                            <div class="col">
+                                <input type="password" class="form-control" name="confirmPassword" maxlength="100" placeholder="Confirmar senha" required>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                <?php
+                    }
+                    else
+                    {
+                        echo "<div>
+                                <b>{$user['error']['message']}</b>
+                              </div>";
+                    }
                 ?>
             </div>
-            <fieldset class="custom-fieldset">
-                <legend><i class="fa-solid fa-key"></i> Alterar Senha</legend>
-                <div class="row">
-                    <div class="col">
-                        <input type="password" class="form-control" name="newPassword" maxlength="100" placeholder="Nova senha" required>
-                    </div>
-                    <div class="col">
-                        <input type="password" class="form-control" name="confirmPassword" maxlength="100" placeholder="Confirmar senha" required>
-                    </div>
-                </div>
-            </fieldset>
+
             <div class="modal-footer">
-            <button type="button" id="profile-save" class="btn save" disabled><i class="fa-solid fa-check"></i> Salvar</button>
-            <button type="button" id="profile-cancel" class="btn clear" data-bs-dismiss="modal"><i class="fa-regular fa-circle-xmark"></i> Cancelar</button>
+                <button type="button" id="profile-save" class="btn save" disabled><i class="fa-solid fa-check"></i> Salvar</button>
+                <button type="button" id="profile-cancel" class="btn clear" data-bs-dismiss="modal"><i class="fa-regular fa-circle-xmark"></i> Cancelar</button>
             </div>
         </div>
     </div>

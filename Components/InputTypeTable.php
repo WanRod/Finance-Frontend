@@ -1,6 +1,6 @@
 <?php
 include_once 'Components/Modals/DeleteModal.html';
-include_once 'Components/Modals/UpdateOutputTypeModal.html';
+include_once 'Components/Modals/UpdateInputTypeModal.html';
 
 $currentQuantity = 20;
 
@@ -20,23 +20,23 @@ if (isset($_POST['quantity']))
 
     <tbody>
         <?php
-        $outputTypes = OutputTypeRepository::getAll($currentQuantity);
+        $inputTypes = InputTypeRepository::getAll($currentQuantity);
 
 
-        if (isset($outputTypes['error']['message']))
+        if (isset($inputTypes['error']['message']))
         {
-            $_SESSION['message'] = $outputTypes['error']['message'];
+            $_SESSION['message'] = $inputTypes['error']['message'];
         }
-        else if ($outputTypes === null)
+        else if ($inputTypes === null)
         {
             $_SESSION['message'] = "Não foi possível conectar à API, tente novamente mais tarde.";
         }
         else
         {
-            $outputTypes = $outputTypes['body'];
+            $inputTypes = $inputTypes['body'];
         }
 
-        if ($outputTypes === null)
+        if ($inputTypes === null)
         {
             echo "
                 <tr>
@@ -46,26 +46,26 @@ if (isset($_POST['quantity']))
                 </tr>
             ";
         }
-        else if (isset($outputTypes['error'])) 
+        else if (isset($inputTypes['error'])) 
         {
             echo "
                 <tr>
                     <td colspan=\"2\" class=\"text-center text-danger\">
-                        Erro ao carregar os dados: {$outputTypes['error']['message']}
+                        Erro ao carregar os dados: {$inputTypes['error']['message']}
                     </td>
                 </tr>
             ";
         } 
-        else if ($outputTypes != null && count($outputTypes) > 0) 
+        else if ($inputTypes != null && count($inputTypes) > 0) 
         {
-            foreach ($outputTypes as $outputType) 
+            foreach ($inputTypes as $inputType) 
             {
                 echo "
                     <tr>
-                        <td class=\"text-start\">{$outputType['description']}</td>
+                        <td class=\"text-start\">{$inputType['description']}</td>
                         <td class=\"action-col\">
-                            <button class=\"edit-button\" data-id=\"{$outputType['id']}\" data-bs-toggle=\"modal\" data-bs-target=\"#edit-modal\"><i class=\"fa-solid fa-pencil icon\"></i></button>
-                            <button class=\"delete-button\" data-id=\"{$outputType['id']}\" data-bs-toggle=\"modal\" data-bs-target=\"#delete-modal\"><i class=\"fas fa-trash-can icon\"></i></button>
+                            <button class=\"edit-button\" data-id=\"{$inputType['id']}\" data-bs-toggle=\"modal\" data-bs-target=\"#edit-modal\"><i class=\"fa-solid fa-pencil icon\"></i></button>
+                            <button class=\"delete-button\" data-id=\"{$inputType['id']}\" data-bs-toggle=\"modal\" data-bs-target=\"#delete-modal\"><i class=\"fas fa-trash-can icon\"></i></button>
                         </td>
                     </tr>
                 ";
@@ -116,7 +116,7 @@ $(document).ready(function()
         var id = $(this).data('id');
 
         $.ajax({
-            url: 'Methods/OutputType/DeleteOutputType.php',
+            url: 'Methods/InputType/DeleteInputType.php',
             type: 'POST',
             data: { id: id },
             success: function(response)
@@ -151,7 +151,7 @@ $(document).ready(function()
         var description = $('#edit-description').val();
 
         $.ajax({
-            url: 'Methods/OutputType/UpdateOutputType.php',
+            url: 'Methods/InputType/UpdateInputType.php',
             type: 'POST',
             data: 
             { 
@@ -161,10 +161,6 @@ $(document).ready(function()
             success: function(response)
             {
                 location.replace(location.href);
-            },
-            error: function(xhr, status, error) 
-            {
-
             }
         });
     });

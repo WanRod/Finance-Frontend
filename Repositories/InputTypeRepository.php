@@ -1,6 +1,6 @@
 <?php
 
-class OutputTypeRepository
+class InputTypeRepository
 {
     private static $baseUrl = 'http://localhost:1010/api/finance';
 
@@ -104,7 +104,7 @@ class OutputTypeRepository
     
     public static function getAll($currentQuantity = null)
     {
-        $url = self::$baseUrl . '/output-type';
+        $url = self::$baseUrl . '/input-type';
         $data = [
             'quantity' => $currentQuantity
             ];
@@ -113,13 +113,13 @@ class OutputTypeRepository
 
     public static function getById($id)
     {
-        $url = self::$baseUrl . "/output-type/{$id}";
+        $url = self::$baseUrl . "/input-type/{$id}";
         return self::makeRequest('GET', $url);
     }
 
     public static function insert($description)
     {
-        $url = self::$baseUrl . '/output-type';
+        $url = self::$baseUrl . '/input-type';
         $data = [
             'description' => $description
         ];
@@ -128,7 +128,7 @@ class OutputTypeRepository
 
     public static function update($id, $description)
     {
-        $url = self::$baseUrl . "/output-type";
+        $url = self::$baseUrl . "/input-type";
         $data = [
             'id' => $id,
             'description' => $description
@@ -138,7 +138,7 @@ class OutputTypeRepository
 
     public static function delete($id)
     {
-        $url = self::$baseUrl . "/output-type/{$id}";
+        $url = self::$baseUrl . "/input-type/{$id}";
         return self::makeRequest('DELETE', $url);
     }
 }

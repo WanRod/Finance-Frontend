@@ -13,13 +13,13 @@ nav {
 }
 
 .dollar-circle {
-    height: 3em;
-    width: 3em;
+    height: 2.5em;
+    width: 2.5em;
 }
 
 .dollar-sign {
     color: #FFFFFF;
-    font-size: 1.5em;
+    font-size: 1.3em;
 }
 
 .btn-profile {
@@ -41,17 +41,6 @@ nav {
 .btn-logout:hover, .btn-logout:active {
     background-color: #FF0000 !important;
     border-color: #FF0000 !important;
-    color: #FFFFFF !important;
-}
-
-.btn-return {
-    border-color: #FFFAFA;
-    color: #FFFAFA;
-}
-
-.btn-return:hover, .btn-return:active {
-    background-color: #FFA500 !important;
-    border-color: #FFA500 !important;
     color: #FFFFFF !important;
 }
 
@@ -78,7 +67,6 @@ nav {
     background: white;
     padding: 0 5px;
 }
-
 
 .menu:hover, .menu:active {
     color: #FFFFFF !important;

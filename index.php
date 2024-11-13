@@ -11,6 +11,7 @@ if (!isset($_SESSION['token']))
 }
 
 require_once 'Repositories/InputRepository.php';
+require_once 'Repositories/InputTypeRepository.php';
 require_once 'Repositories/OutputRepository.php';
 require_once 'Repositories/OutputTypeRepository.php';
 require_once 'Repositories/DashboardRepository.php';
@@ -36,6 +37,10 @@ if (isset($_POST['toggle']))
             break;
 
         case "outputType":
+            $_SESSION['menu'] = "inputType";
+            break;
+
+        case "inputType":
             $_SESSION['menu'] = "output";
             break;
 
@@ -68,7 +73,7 @@ else if (isset($_POST['dashboard']))
 
 <body>
     <header>
-        <nav class="row">
+        <nav class="d-flex">
             <div class="col d-flex align-items-center header-logo">
                 <div class="border border-2 rounded-circle dollar-circle d-flex justify-content-center align-items-center">
                     <i class="fa-solid fa-dollar-sign dollar-sign"></i>
@@ -107,6 +112,11 @@ else if (isset($_POST['dashboard']))
                     include_once 'Components/OutputTypeTable.php';
                     break;
 
+                case "inputType":
+                    include_once 'Components/InputTypeForm.php';
+                    include_once 'Components/InputTypeTable.php';
+                    break;
+
                 case "dashboard":
                     include_once 'Components/Dashboard.php';
                     break;
@@ -125,6 +135,37 @@ else if (isset($_POST['dashboard']))
         include_once 'Components/Modals/ProfileModal.php';
     ?>
 
+    <?php if (isset($_SESSION['message'])): ?>
+        <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <?php echo htmlspecialchars($_SESSION['message'], ENT_QUOTES, 'UTF-8'); ?>
+                            </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            $(document).ready(function() {
+                $('#messageModal').modal('show');
+
+                setTimeout(function() {
+                    $('#messageModal').modal('hide');
+                }, 5000);
+                
+                $('#messageModal').on('hidden.bs.modal', function () {
+                    <?php unset($_SESSION['message']); ?>
+                });
+            });
+        </script>
+    <?php endif; ?>
+
     <script>
         $(document).ready(function() 
         {
@@ -140,10 +181,6 @@ else if (isset($_POST['dashboard']))
                     success: function(response)
                     {
                         location.replace(location.href);
-                    },
-                    error: function(xhr, status, error) 
-                    {
-
                     }
                 });
             });

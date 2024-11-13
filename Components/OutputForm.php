@@ -1,5 +1,5 @@
 <div class="form-header">
-    <p>Adicionar saída</p>
+    <p>Adicionar Saída</p>
 </div>
 
 <fieldset class="form-fieldset">
@@ -9,10 +9,12 @@
                 <select name="output-type-id" id="output-type-id" class="form-select" required>
                     <option selected disabled value="">Selecione um tipo</option>
                     <?php     
-                        $outputTypes = OutputTypeRepository::getAll(); 
+                        $outputTypes = (OutputTypeRepository::getAll())['body']; 
                         
-                        if ($outputTypes != null && !isset($outputTypes['error'])) {
-                            foreach ($outputTypes as $outputType) {
+                        if ($outputTypes != null && !isset($outputTypes['error']))
+                        {
+                            foreach ($outputTypes as $outputType)
+                            {
                                 echo "<option value=\"{$outputType['id']}\">{$outputType['description']}</option>";
                             }
                         }
@@ -38,7 +40,7 @@
         
         <div class="buttons">
             <button class="btn me-2 save" type="submit"><i class="fa-solid fa-check"></i> Salvar</button>
-            <button class="btn clear" type="reset"><i class="fa-solid fa-trash-can"></i> Limpar</button>
+            <button class="btn clear" type="reset"><i class="fa-solid fa-trash"></i> Limpar</button>
         </div>
     </form>
 

@@ -6,64 +6,101 @@ class OutputRepository
 
     private static function makeRequest($method, $url, $data = null)
     {
-        if (!isset($_SESSION)) 
+        if (!isset($_SESSION))
         {
             session_start();
         }
 
-        $token = $_SESSION['token'] ?? null;
+        $ch = curl_init();
 
-        if (!$token)
+        if (isset($_SESSION['token']))
         {
-            throw new Exception('Token de autorização não encontrado.');
+            $headers = [
+                'Authorization: Bearer ' . $_SESSION['token']
+            ];
         }
 
-        $headers = [
-            'Authorization: Bearer ' . $token
-        ];
-
-        if ($method === 'GET' && $data != null)
+        if ($method === 'GET' && $data !== null)
         {
             $url .= '?' . http_build_query($data);
         }
-
-        if ($method === 'POST' || $method === 'PUT')
+        else
         {
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
+        }
+
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        if (($method === 'POST' || $method === 'PUT') && $data !== null)
+        {
+            $jsonData = json_encode($data);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
             $headers[] = 'Content-Type: application/json';
+            $headers[] = 'Content-Length: ' . strlen($jsonData);
         }
 
-        $options = [
-            'http' => [
-                'method' => $method,
-                'header' => implode("\r\n", $headers),
-            ]
-        ];
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
-        if ($data !== null)
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        if ($response === false)
         {
-            $options['http']['content'] = json_encode($data);
+            return null;
         }
 
-        $context = stream_context_create($options);
-        
-        try {
-            $result = @file_get_contents($url, false, $context);
-            if ($result === false) {
-                $error = error_get_last();
-                
-                if (strpos($error['message'], 'Failed to open stream') !== false) {
-                    throw new Exception('A API está offline.');
-                } else {
-                    throw new Exception('Erro ao fazer a requisição: ' . $error['message']);
-                }
+        $decodedResponse = !empty($response) ? json_decode($response, true) : null;
+
+        if ($httpCode >= 400)
+        {
+            if ($httpCode === 503)
+            {
+                return null;
             }
-        } catch (Exception $e) {
-            return ['error' => $e->getMessage()];
+
+            if ($httpCode === 401)
+            {
+                return [
+                    'error' => [
+                        'message' => "O token de autorização expirou, realize o login novamente."
+                    ]
+                ];
+            }
+
+            if ($httpCode === 404)
+            {
+                return [
+                    'error' => [
+                        'message' => "O endpoint da ação desejada não foi encontrado."
+                    ]
+                ];
+            }
+
+            if (is_array($decodedResponse['message']))
+            {
+                return [
+                    'error' => [
+                        'message' => implode(' ', array_map(fn($err) => $err['error'], $decodedResponse['message']))
+                    ]
+                ];
+            }
+            else
+            {
+                return [
+                    'error' => [
+                        'message' => $decodedResponse['message']
+                    ]
+                ];
+            }
         }
 
-        return json_decode($result, true);
+        return [
+            'body' => $decodedResponse,
+            'httpCode' => $httpCode
+        ];
     }
-
 
     public static function getAll($currentQuantity)
     {

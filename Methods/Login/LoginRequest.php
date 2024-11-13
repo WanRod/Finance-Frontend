@@ -8,30 +8,31 @@ unset($_SESSION['cpfCnpj']);
 if (!empty($_POST['cpfCnpj']) && !empty($_POST['password']))
 {
     $response = LoginRepository::login($_POST['cpfCnpj'], $_POST['password']);
-
-    if ($response === null)
+    
+    if ($response == null)
     {
         $_SESSION['cpfCnpj'] = $_POST['cpfCnpj'];
         $_SESSION['message'] = 'Não foi possível conectar à API, tente novamente mais tarde.';
-    }
+    } 
     else if (isset($response['error']))
     {
         $_SESSION['cpfCnpj'] = $_POST['cpfCnpj'];
         $_SESSION['message'] = $response['error']['message'];
-    }
-    else if (isset($response['token']))
+    } 
+    else if (isset($response['body']['token']))
     {
-        $_SESSION['message'] = 'Login realizado com sucesso!';
-        $_SESSION['token'] = $response['token'];
+        $_SESSION['token'] = $response['body']['token'];
     } 
     else
     {
         $_SESSION['cpfCnpj'] = $_POST['cpfCnpj'];
-        $_SESSION['message'] = 'Ocorreu um erro inesperado. Tente novamente.';
+        $_SESSION['message'] = 'Ocorreu um erro inesperado, tente novamente.';
     }
-} else {
+} 
+else
+{
     $_SESSION['message'] = 'Por favor, preencha todos os campos.';
 }
 
-header('Location: ../../login.php');
+header('Location: ../../Login.php');
 exit();

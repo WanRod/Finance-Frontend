@@ -1,6 +1,6 @@
 <?php
 include_once 'Components/Modals/DeleteModal.html';
-include_once 'Components/Modals/UpdateInputModal.html';
+include_once 'Components/Modals/UpdateInputModal.php';
 
 $currentQuantity = 20;
 
@@ -13,6 +13,7 @@ if (isset($_POST['quantity']))
 <table class="mb-2">
     <thead>
         <tr>
+            <th>Tipo</th>
             <th>Descrição</th>
             <th>Valor (R$)</th>
             <th>Data</th>
@@ -24,26 +25,51 @@ if (isset($_POST['quantity']))
         <?php
         $inputs = InputRepository::getAll($currentQuantity);
 
-        if (isset($inputs['error'])) 
+        if (isset($inputs['error']['message']))
+        {
+            $_SESSION['message'] = $inputs['error']['message'];
+        }
+        else if ($inputs === null)
+        {
+            $_SESSION['message'] = "Não foi possível conectar à API, tente novamente mais tarde.";
+        }
+        else
+        {
+            $inputs = $inputs['body'];
+        }
+
+        if ($inputs === null)
         {
             echo "
                 <tr>
-                    <td colspan=\"4\" class=\"text-center text-danger\">
-                        Erro ao carregar os dados: {$inputs['error']}
+                    <td colspan=\"5\" class=\"text-center text-danger\">
+                        Não foi possível conectar à API, tente novamente mais tarde.
+                    </td>
+                </tr>
+            ";
+        }
+        else if (isset($inputs['error'])) 
+        {
+            echo "
+                <tr>
+                    <td colspan=\"5\" class=\"text-center text-danger\">
+                        Erro ao carregar os dados: {$inputs['error']['message']}
                     </td>
                 </tr>
             ";
         } 
-        elseif ($inputs != null && count($inputs) > 0)  
+        else if ($inputs != null && count($inputs) > 0)  
         {
             foreach ($inputs as $input) 
             {
                 $value = str_replace('.', ',', $input['value']);
+                $value = number_format((float)str_replace(',', '.', $value), 2, ',', '');
 
                 $date = DateTime::createFromFormat('Y-m-d', $input['date'])->format('d/m/Y');
 
                 echo "
                     <tr>
+                        <td data-input-type-id=\"{$input['input_type']['id']}\">{$input['input_type']['description']}</td>
                         <td>{$input['description']}</td>
                         <td class=\"text-end\" data-raw-value=\"{$input['value']}\">R$ {$value}</td>
                         <td data-raw-date=\"{$input['date']}\">{$date}</td>
@@ -59,7 +85,7 @@ if (isset($_POST['quantity']))
         {
             echo "
                 <tr>
-                    <td colspan=\"4\" class=\"text-center\">Nenhum registro encontrado.</td>
+                    <td colspan=\"5\" class=\"text-center\">Nenhum registro encontrado.</td>
                 </tr>
                 ";
         }
@@ -135,11 +161,13 @@ $(document).ready(function()
     {
         var row = $(this).closest('tr');
         var id = $(this).data('id');
-        var description = row.find('td:eq(0)').text();
-        var value = row.find('td:eq(1)').data('raw-value');
-        var date = row.find('td:eq(2)').data('raw-date');
+        var inputTypeId = row.find('td:eq(0)').data('input-type-id');
+        var description = row.find('td:eq(1)').text();
+        var value = row.find('td:eq(2)').data('raw-value');
+        var date = row.find('td:eq(3)').data('raw-date');3
 
         $('#edit-id').val(id);
+        $('#edit-input-type-id').val(inputTypeId);
         $('#edit-description').val(description);
         $('#edit-value').val(value);
         $('#edit-date').val(date);
@@ -148,6 +176,7 @@ $(document).ready(function()
     $('#confirm-edit').on('click', function()
     {
         var id = $('#edit-id').val();
+        var inputTypeId = $('#edit-input-type-id').val();
         var description = $('#edit-description').val();
         var date = $('#edit-date').val();
         var value = $('#edit-value').val();
@@ -160,6 +189,7 @@ $(document).ready(function()
             data: 
             { 
                 id: id,
+                inputTypeId: inputTypeId,
                 description: description,
                 value: value,
                 date: date
@@ -177,6 +207,7 @@ $(document).ready(function()
 
     $('#cancel-edit').on('click', function() 
     {
+        $('#edit-input-type-id').val('');
         $('#edit-description').val('');
         $('#edit-value').val('');
         $('#edit-date').val('');

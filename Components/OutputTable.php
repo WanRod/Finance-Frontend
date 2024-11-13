@@ -25,17 +25,40 @@ if (isset($_POST['quantity']))
         <?php
         $outputs = OutputRepository::getAll($currentQuantity);
 
-        if (isset($outputs['error'])) 
+        if (isset($outputs['error']['message']))
+        {
+            $_SESSION['message'] = $outputs['error']['message'];
+        }
+        else if ($outputs === null)
+        {
+            $_SESSION['message'] = "Não foi possível conectar à API, tente novamente mais tarde.";
+        }
+        else
+        {
+            $outputs = $outputs['body'];
+        }
+
+        if ($outputs === null)
         {
             echo "
                 <tr>
                     <td colspan=\"5\" class=\"text-center text-danger\">
-                        Erro ao carregar os dados: {$outputs['error']}
+                        Não foi possível conectar à API, tente novamente mais tarde.
+                    </td>
+                </tr>
+            ";
+        }
+        else if (isset($outputs['error']))
+        {
+            echo "
+                <tr>
+                    <td colspan=\"5\" class=\"text-center text-danger\">
+                        Erro ao carregar os dados: {$outputs['error']['message']}
                     </td>
                 </tr>
             ";
         } 
-        elseif ($outputs != null && count($outputs) > 0) 
+        else if ($outputs != null && count($outputs) > 0) 
         {
             foreach ($outputs as $output) 
             {
@@ -45,7 +68,7 @@ if (isset($_POST['quantity']))
                 $date = DateTime::createFromFormat('Y-m-d', $output['date'])->format('d/m/Y');
 
                 echo "
-                    <tr class=\"tablee\">
+                    <tr>
                         <td data-output-type-id=\"{$output['output_type']['id']}\">{$output['output_type']['description']}</td>
                         <td>{$output['description']}</td>
                         <td class=\"text-end\" data-raw-value=\"{$output['value']}\">R$ {$value}</td>

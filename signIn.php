@@ -23,52 +23,72 @@ if (isset($_SESSION['token']))
     <title>Finanças</title>
 </head>
 
-<body class="d-flex flex-column vh-100">
-    <header>
-        <nav class="row">
-            <div class="col d-flex align-items-center header-logo">
-                <div class="border border-2 rounded-circle dollar-circle d-flex justify-content-center align-items-center">
-                    <i class="fa-solid fa-dollar-sign dollar-sign"></i>
-                </div>
-                <h1 class="mt-1 mx-2">Finanças</h1>
-            </div>
-            <div class="col align-content-center text-end ">   
-                <form action="Login.php">
-                    <button type="submit" class="btn btn-return"><i class="fa-solid fa-right-from-bracket me-1"></i>Retornar</button>
-                </form>
-            </div>
-        </nav>
-    </header>
-
+<body class="body-login d-flex flex-column vh-100">
     <main class="d-flex flex-grow-1 justify-content-center align-items-center">
         <div class="container container-sign-in">
-            <div class="text-center">
-                <h3>Cadastrar usuário</h3>
+            <div class="text-center mb-5">
+                <h2 class="fw-bold"><u>Cadastrar usuário</u></h2>
             </div>
 
             <form action="Methods/User/InsertUser.php" method="POST">
-                <div class="mb-2">
+                <div class="mb-3">
                     <label for="name" class="fw-bold">Nome</label>
-                    <input type="text" class="form-control" id="name" name="name" maxlength="50" required>
-                </div>
-
-                <div class="mb-2">
-                    <label for="cpfCnpj" class="fw-bold">CPF / CNPJ</label>
-                    <input type="text" class="form-control" id="cpfCnpj" name="cpfCnpj" maxlength="18" required>
+                    <input type="text" class="form-control" id="name" name="name" value="<?php echo isset($_SESSION['name']) ? htmlspecialchars($_SESSION['name']) : ''; unset($_SESSION['name']);?>" maxlength="50" required>
                 </div>
 
                 <div class="mb-3">
+                    <label for="cpfCnpj" class="fw-bold">CPF / CNPJ</label>
+                    <input type="text" class="form-control" id="cpfCnpj" name="cpfCnpj" value="<?php echo isset($_SESSION['cpfCnpj']) ? htmlspecialchars($_SESSION['cpfCnpj']) : ''; unset($_SESSION['cpfCnpj']);?>" maxlength="18" required>
+                </div>
+
+                <div class="mb-4">
                     <label for="password" class="fw-bold">Senha</label>
                     <input type="password" class="form-control" id="password" name="password" maxlength="50" required>
                 </div>
 
-                <div class="d-flex justify-content-center gap-2">
-                    <button type="submit" class="btn save submit-login"><i class="fa-solid fa-check"></i> Salvar</button>
-                    <button type="reset" class="btn clear"><i class="fa-solid fa-trash-can"></i> Limpar</button>
+                <div class="d-flex gap-2 mb-2">
+                    <button type="submit" class="btn save submit-login rounded-pill w-100"><i class="fa-solid fa-check"></i> Cadastrar</button>
+                    <button type="reset" class="btn clear rounded-pill w-100"><i class="fa-solid fa-trash"></i> Limpar</button>
+                </div>
+
+                <div class="text-center text-small">
+                    <a href="Login.php" class="text-decoration-none">Já tem um conta? <span class="text-success">Volte ao Login</span></a>
                 </div>
             </form>
         </div>
     </main>
+
+    <?php if (isset($_SESSION['message'])): ?>
+        <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <?php echo htmlspecialchars($_SESSION['message'], ENT_QUOTES, 'UTF-8'); ?>
+                            </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <script>
+            $(document).ready(function() {
+                $('#messageModal').modal('show');
+
+                setTimeout(function() {
+                    $('#messageModal').modal('hide');
+                }, 5000);
+                
+                $('#messageModal').on('hidden.bs.modal', function () {
+                    <?php unset($_SESSION['message']); ?>
+                });
+            });
+        </script>
+    <?php endif; ?>
 
     <script>
     $(document).ready(function() {
